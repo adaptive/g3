@@ -1,0 +1,42 @@
+HEIC decoder source and rebuild information
+
+The heic-to 1.6.7 dependency identifies its embedded library as libheif
+1.23.7. Its development guide gives the libheif/libde265 build steps below.
+These are the upstream release source tarballs used to make the sources easy
+to retrieve with this application. The tarballs are unmodified byte-for-byte
+copies of release assets. Their SHA-256 values are listed in SHA256SUMS.
+
+Upstream release assets:
+  https://github.com/strukturag/libheif/releases/tag/v1.23.7
+  https://github.com/strukturag/libde265/releases/tag/v1.0.16
+
+Build recipe, as documented by heic-to 1.6.7 (macOS example):
+
+  brew install cmake make pkg-config x265 libde265 libjpeg libtool
+  brew install emscripten
+  cd libheif-1.23.7
+  mkdir buildjs && cd buildjs
+  LIBDE265_VERSION=1.0.16 USE_UNSAFE_EVAL=0 USE_WASM=0 \
+    ../build-emscripten.sh ..
+
+The bundled heic-to README also documents a change to build-emscripten.sh's
+EXPORTED_FUNCTIONS symbol extraction, using llvm-nm, grep, sed, and paste.
+The official libheif source archive includes the original build-emscripten.sh.
+Consult the full build procedure in ../heic-to-1.6.7/README.md.
+The resulting library source is wrapped into the heic-to CSP worker by the
+heic-to-1.6.7 build script and distributed here as
+heic-to-1.6.7/dist/csp/heic-to.js and its underlying source files.
+
+Upstream library license texts are preserved separately as
+libheif-1.23.7-COPYING.txt and libde265-1.0.16-COPYING.txt; the full original
+source archives also contain their license and copyright files. Do not assume
+these are the only third-party components in a locally rebuilt library: the
+recipe enables libde265 and disables AOM and WebCodecs, but a changed recipe
+may include other libraries. Review the chosen build configuration and all
+licenses before redistribution.
+
+The web application source and package lockfile are published alongside the
+build output under the MIT License. Replace the decoder by changing the
+dependency/build inputs and rebuilding the application. No technical measure
+in this repository prevents relinking or reverse engineering the LGPL
+components.

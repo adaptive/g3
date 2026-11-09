@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "g3",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist/client",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api", "/api/*", "/g/*", "/favicon.ico"],
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "adaptive-gallery","database_id": "012c51fe-db86-447f-a7dd-71e62ba3fc3c",
+      // Omit the ID so each installation can provision its own database.
+    },
+  ],
+  "r2_buckets": [
+    { "binding": "PHOTOS", "bucket_name": "adaptive-gallery-photos","preview_bucket_name": "adaptive-gallery-photos" },
+  ],
+  "triggers": { "crons": ["0 * * * *", "17 3 * * *"] },
+  "observability": { "enabled": true, "head_sampling_rate": 0.1 },
+}

@@ -1,0 +1,10 @@
+{
+  "rules": [
+    {
+      "allowed": {
+        "origins": ["https://gallery.example.com"],
+        "methods": ["GET", "HEAD"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "name": "g3",
+  "version": "2026.11.7-build.1",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "bun": ">=1.4.4"
+  },
+  "scripts": {
+    "dev": "bun --bun vite --host 127.0.0.1",
+    "build": "bun --bun vite build && bun scripts/vendor-notices.mjs",
+    "clean": "rm -rf dist public/third-party/heic-to-1.6.7",
+    "typecheck": "bun --bun tsc --noEmit",
+    "test": "bun test --timeout 30000",
+    "db:init:local": "bun scripts/prepare-deploy.ts --local",
+    "db:init:remote": "bun scripts/prepare-deploy.ts --remote",
+    "deploy": "bun run db:init:remote && bun --bun wrangler deploy --config wrangler.jsonc",
+    "deploy:manual": "bun run build && bun run deploy",
+    "check": "bun run typecheck && bun run test && bun run build",
+    "deploy:dry-run": "bun --bun wrangler deploy --dry-run --config wrangler.jsonc",
+    "cf": "bun --bun wrangler --config wrangler.jsonc",
+    "check:toolchain": "bun scripts/check-toolchain.ts",
+    "cost:estimate": "bun scripts/usage-report.ts",
+    "collect:usage": "bun scripts/collect-usage.ts",
+    "cf:r2-cors": "bun scripts/configure-r2-cors.ts"
+  },
+  "cloudflare": {
+    "bindings": {
+      "DB": {
+        "description": "D1 database for gallery settings, password verifiers, photo records and login throttling. One database serves all galleries in this installation."
+      },
+      "PHOTOS": {
+        "description": "Private R2 bucket for unchanged originals and browser-generated JPEG previews. Keep public access disabled."
+      },
+      "ADMIN_PASSWORD": {
+        "description": "Shared administrator password for all galleries, at least 12 characters. Choose a strong random value. Changing it invalidates administrator sessions and guest sessions issued for gallery passwords."
+      }
+    }
+  },
+  "dependencies": {
+    "heic-to": "1.6.7",
+    "solid-js": "1.9.18",
+    "lucide-solid": "1.70.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20261107.1",
+    "typescript": "7.0.2",
+    "vite": "8.3.6",
+    "vite-plugin-solid": "2.11.15",
+    "@types/bun": "1.4.4",
+    "wrangler": "4.158.0"
+  },
+  "overrides": {
+    "undici": "7.30.1",
+    "sharp": "0.35.5"
+  },
+  "packageManager": "bun@1.4.4",
+  "trustedDependencies": [
+    "esbuild",
+    "workerd",
+    "sharp"
+  ]
+}

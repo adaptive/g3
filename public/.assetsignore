@@ -1,0 +1,10 @@
+# Wrangler otherwise uploads every file in the built asset directory.
+# Keep local metadata, credentials and verification output out of production.
+**/.*
+**/node_modules
+**/coverage
+**/test-results
+**/playwright-report
+**/*.log
+**/*.map
+**/*.tsbuildinfo

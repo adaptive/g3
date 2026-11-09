@@ -1,0 +1,3 @@
+[run]
+# Keep package binaries and child JavaScript tools on Bun, including Node shebangs.
+bun = true

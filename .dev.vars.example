@@ -1,0 +1,4 @@
+# Required: set a strong administrator password of at least 12 characters.
+ADMIN_PASSWORD=
+# Cloudflare's deploy button turns entries in this file into setup fields.
+# Keep optional direct R2 delivery settings in the README instead.
